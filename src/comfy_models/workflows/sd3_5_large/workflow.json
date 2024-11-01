@@ -1,0 +1,685 @@
+{
+    "extra": {
+        "ds": {
+            "scale": 1.1,
+            "offset": [
+                42.86394845114562,
+                84.92758943324826
+            ]
+        }
+    },
+    "links": [
+        [
+            7,
+            3,
+            0,
+            8,
+            0,
+            "LATENT"
+        ],
+        [
+            21,
+            16,
+            0,
+            3,
+            1,
+            "CONDITIONING"
+        ],
+        [
+            51,
+            8,
+            0,
+            9,
+            0,
+            "IMAGE"
+        ],
+        [
+            53,
+            4,
+            2,
+            8,
+            1,
+            "VAE"
+        ],
+        [
+            80,
+            40,
+            0,
+            3,
+            2,
+            "CONDITIONING"
+        ],
+        [
+            100,
+            53,
+            0,
+            3,
+            3,
+            "LATENT"
+        ],
+        [
+            103,
+            43,
+            0,
+            16,
+            0,
+            "CLIP"
+        ],
+        [
+            104,
+            43,
+            0,
+            40,
+            0,
+            "CLIP"
+        ],
+        [
+            105,
+            56,
+            0,
+            16,
+            1,
+            "STRING"
+        ],
+        [
+            106,
+            4,
+            0,
+            57,
+            0,
+            "MODEL"
+        ],
+        [
+            107,
+            57,
+            0,
+            3,
+            0,
+            "MODEL"
+        ]
+    ],
+    "nodes": [
+        {
+            "id": 3,
+            "pos": [
+                864,
+                96
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 262
+            },
+            "type": "KSampler",
+            "flags": {},
+            "order": 12,
+            "inputs": [
+                {
+                    "link": 107,
+                    "name": "model",
+                    "type": "MODEL",
+                    "slot_index": 0
+                },
+                {
+                    "link": 21,
+                    "name": "positive",
+                    "type": "CONDITIONING"
+                },
+                {
+                    "link": 80,
+                    "name": "negative",
+                    "type": "CONDITIONING"
+                },
+                {
+                    "link": 100,
+                    "name": "latent_image",
+                    "type": "LATENT"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "LATENT",
+                    "type": "LATENT",
+                    "links": [
+                        7
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "KSampler"
+            },
+            "widgets_values": [
+                844390075629552,
+                "randomize",
+                20,
+                5.45,
+                "euler",
+                "sgm_uniform",
+                1
+            ]
+        },
+        {
+            "id": 8,
+            "pos": [
+                1200,
+                96
+            ],
+            "mode": 0,
+            "size": {
+                "0": 210,
+                "1": 46
+            },
+            "type": "VAEDecode",
+            "flags": {},
+            "order": 13,
+            "inputs": [
+                {
+                    "link": 7,
+                    "name": "samples",
+                    "type": "LATENT"
+                },
+                {
+                    "link": 53,
+                    "name": "vae",
+                    "type": "VAE",
+                    "slot_index": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "IMAGE",
+                    "type": "IMAGE",
+                    "links": [
+                        51
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "VAEDecode"
+            }
+        },
+        {
+            "id": 9,
+            "pos": [
+                1440,
+                96
+            ],
+            "mode": 0,
+            "size": {
+                "0": 952.5112915039062,
+                "1": 1007.9328002929688
+            },
+            "type": "SaveImage",
+            "flags": {},
+            "order": 14,
+            "inputs": [
+                {
+                    "link": 51,
+                    "name": "images",
+                    "type": "IMAGE",
+                    "slot_index": 0
+                }
+            ],
+            "outputs": [],
+            "properties": {},
+            "widgets_values": [
+                "ComfyUI"
+            ]
+        },
+        {
+            "id": 40,
+            "pos": [
+                384,
+                336
+            ],
+            "mode": 0,
+            "size": {
+                "0": 432,
+                "1": 192
+            },
+            "type": "CLIPTextEncode",
+            "color": "#322",
+            "flags": {},
+            "order": 9,
+            "title": "Negative Prompt",
+            "inputs": [
+                {
+                    "link": 104,
+                    "name": "clip",
+                    "type": "CLIP"
+                }
+            ],
+            "bgcolor": "#533",
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        80
+                    ],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+                ""
+            ]
+        },
+        {
+            "id": 41,
+            "pos": [
+                -96,
+                0
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 82
+            },
+            "type": "CLIPLoader",
+            "flags": {},
+            "order": 0,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "CLIPLoader"
+            },
+            "widgets_values": [
+                "t5xxl_fp16.safetensors",
+                "sd3"
+            ]
+        },
+        {
+            "id": 42,
+            "pos": [
+                -96,
+                144
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 106
+            },
+            "type": "DualCLIPLoader",
+            "flags": {},
+            "order": 1,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "DualCLIPLoader"
+            },
+            "widgets_values": [
+                "clip_l.safetensors",
+                "clip_g.safetensors",
+                "sd3"
+            ]
+        },
+        {
+            "id": 43,
+            "pos": [
+                -96,
+                288
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 106
+            },
+            "type": "TripleCLIPLoader",
+            "flags": {},
+            "order": 2,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [
+                        103,
+                        104
+                    ],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "TripleCLIPLoader"
+            },
+            "widgets_values": [
+                "clip_l.safetensors",
+                "clip_g.safetensors",
+                "t5xxl_fp16.safetensors"
+            ]
+        },
+        {
+            "id": 50,
+            "pos": [
+                -384,
+                144
+            ],
+            "mode": 0,
+            "size": {
+                "0": 223.34756469726562,
+                "1": 254.37765502929688
+            },
+            "type": "Note",
+            "color": "#432",
+            "flags": {},
+            "order": 3,
+            "inputs": [],
+            "bgcolor": "#653",
+            "outputs": [],
+            "properties": {
+                "text": ""
+            },
+            "widgets_values": [
+                "SD3 supports different text encoder configurations, you can see how to load them here.\n\n\nMake sure to put these files:\nclip_g.safetensors\nclip_l.safetensors\nt5xxl_fp16.safetensors\n\n\nIn the ComfyUI/models/clip directory"
+            ]
+        },
+        {
+            "id": 51,
+            "pos": [
+                -127,
+                809
+            ],
+            "mode": 0,
+            "size": {
+                "0": 384,
+                "1": 192
+            },
+            "type": "Note",
+            "color": "#432",
+            "flags": {},
+            "order": 4,
+            "inputs": [],
+            "bgcolor": "#653",
+            "outputs": [],
+            "properties": {
+                "text": ""
+            },
+            "widgets_values": [
+                "sd3.5_large.safetensors and sd3.5_medium.safetensors are files that do not contain any CLIP/text encoder weights so you need to load them separately.\n\nThey go in the ComfyUI/models/checkpoints directory."
+            ]
+        },
+        {
+            "id": 53,
+            "pos": [
+                480,
+                576
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 106
+            },
+            "type": "EmptySD3LatentImage",
+            "flags": {},
+            "order": 5,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "LATENT",
+                    "type": "LATENT",
+                    "links": [
+                        100
+                    ],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "EmptySD3LatentImage"
+            },
+            "widgets_values": [
+                1024,
+                1024,
+                1
+            ]
+        },
+        {
+            "id": 56,
+            "pos": [
+                398,
+                -178
+            ],
+            "mode": 0,
+            "size": {
+                "0": 400,
+                "1": 200
+            },
+            "type": "ComfyUIDeployExternalText",
+            "flags": {},
+            "order": 6,
+            "outputs": [
+                {
+                    "name": "text",
+                    "type": "STRING",
+                    "links": [
+                        105
+                    ],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "ComfyUIDeployExternalText"
+            },
+            "widgets_values": [
+                "positive_prompt",
+                "a bottle with a rainbow galaxy inside it on top of a wooden table on a snowy mountain top with the ocean and clouds in the background with a shot glass beside containing darkness beside a snow sculpture in the shape of a fox",
+                "",
+                ""
+            ]
+        },
+        {
+            "id": 54,
+            "pos": [
+                -251,
+                632
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 98
+            },
+            "type": "CheckpointLoaderSimple",
+            "flags": {},
+            "order": 7,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "MODEL",
+                    "type": "MODEL",
+                    "links": null
+                },
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": null
+                },
+                {
+                    "name": "VAE",
+                    "type": "VAE",
+                    "links": null
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "CheckpointLoaderSimple"
+            },
+            "widgets_values": [
+                "sd3.5_large.safetensors"
+            ]
+        },
+        {
+            "id": 16,
+            "pos": [
+                384,
+                87
+            ],
+            "mode": 0,
+            "size": [
+                432,
+                192
+            ],
+            "type": "CLIPTextEncode",
+            "color": "#232",
+            "flags": {},
+            "order": 10,
+            "title": "Positive Prompt",
+            "inputs": [
+                {
+                    "link": 103,
+                    "name": "clip",
+                    "type": "CLIP"
+                },
+                {
+                    "link": 105,
+                    "name": "text",
+                    "type": "STRING",
+                    "widget": {
+                        "name": "text"
+                    }
+                }
+            ],
+            "bgcolor": "#353",
+            "outputs": [
+                {
+                    "name": "CONDITIONING",
+                    "type": "CONDITIONING",
+                    "links": [
+                        21
+                    ],
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "CLIPTextEncode"
+            },
+            "widgets_values": [
+                "a bottle with a rainbow galaxy inside it on top of a wooden table on a snowy mountain top with the ocean and clouds in the background with a shot glass beside containing darkness beside a snow sculpture in the shape of a fox"
+            ]
+        },
+        {
+            "id": 4,
+            "pos": [
+                -186,
+                464
+            ],
+            "mode": 0,
+            "size": {
+                "0": 384.75592041015625,
+                "1": 98
+            },
+            "type": "CheckpointLoaderSimple",
+            "flags": {},
+            "order": 8,
+            "inputs": [],
+            "outputs": [
+                {
+                    "name": "MODEL",
+                    "type": "MODEL",
+                    "links": [
+                        106
+                    ],
+                    "slot_index": 0
+                },
+                {
+                    "name": "CLIP",
+                    "type": "CLIP",
+                    "links": [],
+                    "slot_index": 1
+                },
+                {
+                    "name": "VAE",
+                    "type": "VAE",
+                    "links": [
+                        53
+                    ],
+                    "slot_index": 2
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "CheckpointLoaderSimple"
+            },
+            "widgets_values": [
+                "sd3.5_large.safetensors"
+            ]
+        },
+        {
+            "id": 57,
+            "pos": [
+                118,
+                648
+            ],
+            "mode": 0,
+            "size": {
+                "0": 315,
+                "1": 58
+            },
+            "type": "TorchCompileModel",
+            "flags": {},
+            "order": 11,
+            "inputs": [
+                {
+                    "link": 106,
+                    "name": "model",
+                    "type": "MODEL"
+                }
+            ],
+            "outputs": [
+                {
+                    "name": "MODEL",
+                    "type": "MODEL",
+                    "links": [
+                        107
+                    ],
+                    "shape": 3,
+                    "slot_index": 0
+                }
+            ],
+            "properties": {
+                "Node name for S&R": "TorchCompileModel"
+            },
+            "widgets_values": [
+                "inductor"
+            ]
+        }
+    ],
+    "config": {},
+    "groups": [
+        {
+            "color": "#3f789e",
+            "title": "Different Text Encoder Configurations",
+            "bounding": [
+                -144,
+                -96,
+                480,
+                528
+            ],
+            "font_size": 24
+        }
+    ],
+    "version": 0.4,
+    "last_link_id": 107,
+    "last_node_id": 57
+}
