@@ -147,7 +147,7 @@ wheels = [
 
 [[package]]
 name = "comfy-models"
-version = "0.1.2"
+version = "0.1.5"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },

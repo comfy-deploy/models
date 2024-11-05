@@ -8,10 +8,10 @@ import time
 import uuid
 from pathlib import Path
 from typing import Dict
+from comfy_models.base.comfy_utils import Config
 import comfy_models.base.checkpoint_pickle
 
 from comfy_models.base.comfy_utils import (
-    Config,
     Input,
     generate_modal_image,
     preload_node,
@@ -25,6 +25,7 @@ import modal
 
 class _ComfyDeployRunner:
     config: Config = Config(
+        id="",
         name="",
         warmup_workflow=False,
         run_twice=False,

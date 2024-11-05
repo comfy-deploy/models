@@ -41,13 +41,6 @@ class Input(BaseModel):
         return v
 
 
-class Config(BaseModel):
-    name: str
-    warmup_workflow: bool = False
-    run_twice: bool = False
-    models_to_cache: List[str] = []
-    nodes_to_preload: List[str] = []
-
 async def preload_node(class_type: str, workflow_api_raw: str, prompt_executor):
     workflow_api = json.loads(workflow_api_raw)
 
@@ -66,7 +59,7 @@ async def preload_node(class_type: str, workflow_api_raw: str, prompt_executor):
         # Dynamically import the nodes module and get the class
         import importlib
         import nodes
-        
+
         # nodes_module = importlib.import_module("nodes")
         node_class = getattr(nodes, class_type)
 
@@ -98,11 +91,11 @@ async def preload_node(class_type: str, workflow_api_raw: str, prompt_executor):
         # Call the function with processed inputs
         print(f"Loading {class_type} with inputs: {processed_inputs}")
         result = node_function(**processed_inputs)
-        
+
         print(f"Loaded {class_type} with result: {result}")
-        
+
         # import torch
-        
+
         # if node_class == "UNETLoader":
         #     m = result[0].clone()
         #     m.add_object_patch("diffusion_model", torch.compile(model=m.get_model_object("diffusion_model"), backend="inductor"))
@@ -357,3 +350,14 @@ def optimize_image(image: modal.Image):
         # import comfy
 
     return image
+
+
+class Config(BaseModel):
+    id: str
+    name: str
+    warmup_workflow: bool = False
+    run_twice: bool = False
+    preview_image: Optional[str] = None
+    models_to_cache: List[str] = []
+    nodes_to_preload: List[str] = []
+    gpu: Optional[Union[str, List[str]]] = "a100"

@@ -10,10 +10,10 @@ from comfy_models.workflows import (
 from comfy_models.base.comfy_utils import Config
 
 config = Config(
-    id="sd3-5-large",
-    name="SD3.5 (Large)",
+    id="sd3-5-medium",
+    name="SD3.5 (Medium)",
     models_to_cache=[
-        "checkpoints/sd3.5_large.safetensors",
+        "checkpoints/sd3.5_medium.safetensors",
         "clip/clip_l.safetensors",
         "clip/clip_g.safetensors",
         "clip/t5xxl_fp16.safetensors",
